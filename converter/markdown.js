@@ -21,11 +21,29 @@ var parseLink = function(str) {
     var linkRegExp = /\[([^\[]+)\]\(([^\)]+)\)/;
     var stra = [];
     while ((stra = linkRegExp.exec(str)) !== null) {
-      str = str.replace(stra[0], '<a ' + 'href="' + stra[2] + '">' + stra[1] + '</a>');
+        str = str.replace(stra[0], '<a ' + 'href="' + stra[2] + '">' + stra[1] + '</a>');
     }
     return str;
 }
 
+var parseBold1 = function(str) {
+    var boldRegExp1 = /(\*\*)(.*?)\1/;
+    var stra = [];
+    while ((stra = boldRegExp1.exec(str)) !== null) {
+        str = str.replace(stra[0], '<b>' + stra[2] + '</b>')
+    }
+
+    return str;
+}
+
+var parseBold2 = function(str) {
+    var boldRegExp2 = /(__)(.*?)\1/;
+    var stra = [];
+    while ((stra = boldRegExp2.exec(str)) !== null) {
+        str = str.replace(stra[0], '<b>' + stra[2] + '</b>')
+    }
+    return str;
+}
 
 var markdown = {
     parse: function (str, strict) {
@@ -33,6 +51,8 @@ var markdown = {
         str = parseHeadline(str);
         str = parseHorizontaleLine(str);
         str = parseLink(str);
+        str = parseBold1(str);
+        str = parseBold2(str);
         return str;
     }
 };
