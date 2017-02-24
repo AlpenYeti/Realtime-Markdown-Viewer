@@ -26,24 +26,28 @@ var parseLink = function(str) {
     return str;
 }
 
-var parseBold1 = function(str) {
+var parseBold = function(str) {
     var boldRegExp1 = /(\*\*)(.*?)\1/;
-    var stra = [];
-    while ((stra = boldRegExp1.exec(str)) !== null) {
-        str = str.replace(stra[0], '<b>' + stra[2] + '</b>')
-    }
-
-    return str;
-}
-
-var parseBold2 = function(str) {
     var boldRegExp2 = /(__)(.*?)\1/;
     var stra = [];
-    while ((stra = boldRegExp2.exec(str)) !== null) {
+    while ((stra = boldRegExp1.exec(str)) !== null || (stra = boldRegExp2.exec(str)) !== null) {
         str = str.replace(stra[0], '<b>' + stra[2] + '</b>')
     }
+
     return str;
 }
+
+var parseItalic = function(str) {
+    var italicRegExp1 = /(\*)(.*?)\1/;
+    var italicRegExp2 = /(_)(.*?)\1/;
+    var stra = [];
+    while ((stra = italicRegExp1.exec(str)) !== null || (stra = italicRegExp2.exec(str)) !== null) {
+        str = str.replace(stra[0], '<i>' + stra[2] + '</i>')
+    }
+
+    return str;
+}
+
 
 var markdown = {
     parse: function (str, strict) {
@@ -51,8 +55,8 @@ var markdown = {
         str = parseHeadline(str);
         str = parseHorizontaleLine(str);
         str = parseLink(str);
-        str = parseBold1(str);
-        str = parseBold2(str);
+        str = parseBold(str);
+        str = parseItalic(str);
         return str;
     }
 };
